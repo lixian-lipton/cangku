@@ -1,15 +1,8 @@
 #include <stdio.h>//暴力模拟扫描
 #include <stdbool.h>
 bool print;//打印判断
-int run=1,human[11][2],level,time,load=0,flag;//human[i][1]储存第i层客户目的地,human[i][0]储存乘客状态
+int run=1,human[11][2],level,time,load=0,flag,n=0;//human[i][1]储存第i层客户目的地,human[i][0]储存乘客状态
 int c_in1,c_in2;                                //乘客状态：0为下电梯或不存在，1为等待电梯，2为在电梯上
-bool empty()//判断是否完成所有任务
-{
-    for(int i=1;i<=10;i++)
-        if(human[i][0]!=0)
-            return 0;
-    return 1;
-}
 void out_status()
 {
     printf("%d %d %d\n",level,time,load);
@@ -25,13 +18,15 @@ int main()
         scanf("%d %d",&c_in1,&c_in2);
         if(c_in1==0)
             break;
+        n++;
         human[c_in1][0]=1;
         human[c_in1][1]=c_in2;
     }
-    printf("1,0,0\n");//打印初始状态
+    if(human[1][0]==0)          //否则可能一楼打印两次
+        printf("1 0 0\n");//打印初始状态
     time=-1;//后面循环中每层判定都会time++，但出发的那层判定不应当计入总时间
     level=0;//原因同上
-    while(empty()==0)//
+    while(n!=0)//
     {
         print=0;//初始化打印判断
         time++;
@@ -44,6 +39,7 @@ int main()
                 load--;
                 human[i][1]=0;
                 human[i][0]=0;
+                n--;
             }
         }
         if(human[level][0]==1&&load<4)//后上
