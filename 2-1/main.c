@@ -3,7 +3,7 @@
 int run=0,human[11][3]={0},x;//run=1/0/-1，为运行方向，human[i][1]为从i层出发的乘客目的地，human[i][2]为加入时间
 int level,time,load=0,n=0;//              human[i][0]表示状态，0为不存在/已到达，1为等待，2在电梯上
 int up=0,down=0,queue[12][2],turn=1;//queue[i][0]存时间，queue[i][1]存人（用出发楼层代表）,up down表示上下侧请求楼层数量
-bool request[11]={0},flag=0;//request[i]表示第i层是否有请求
+bool request[11]={0},flag=0,print;//request[i]表示第i层是否有请求
 void sort()
 {
     int x;
@@ -60,6 +60,7 @@ int main()
         }
         level+=run;
         flag=0;
+        print=0;                        //判断是否打印电梯状态
         if(request[level]){
             switch (run){
                 case 1:
@@ -73,13 +74,14 @@ int main()
                 if (human[i][1] == level && human[i][0] == 2) {
                     load--;
                     n--;
+                    print=1;
                     human[i][0] = 0;
                 }
         }
         for(int i=turn;queue[i][0]<=time&&queue[i][1]!=0;i++,turn++)//从turn开始防止有人下了又上，循环防止多人同时按下按键
         {
             human[queue[i][1]][0]=1;
-            if(queue[i][1]!=level)                //若按键的楼层和电梯所在楼层不一致
+            if(queue[i][1]!=level)             //若按键的楼层和电梯所在楼层不一致
                 requ(queue[i][1]);
         }
         if(human[level][0]==1){                         //后上
@@ -87,14 +89,15 @@ int main()
                 load++;
                 requ(human[level][1]);
                 human[level][0]=2;
+                print=1;
             }
             else{                        //要上电梯却满载荷，这是唯一一种无法当场解决的请求
                 flag=1;                   //将在下次循环做有关处理，具体如循环开头flag部分
             }
         }
-        if(request[level])                  //有操作则打印
-            status();
         request[level]=flag;
+        if(print==1)
+            status();
         if(up==0&&down==0)                         //判断电梯接下来运动方向
             run=0;
         else if(up!=0&&down==0)
