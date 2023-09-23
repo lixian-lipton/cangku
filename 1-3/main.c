@@ -3,9 +3,9 @@
 bool print;//打印判断
 int run=1,human[11][2],level,time,load=0,flag,n=0;//human[i][1]储存第i层客户目的地,human[i][0]储存乘客状态
 int c_in1,c_in2;                                //乘客状态：0为下电梯或不存在，1为等待电梯，2为在电梯上
-void out_status()
+void state()
 {
-    printf("%d %d %d\n",level,time,load);
+    printf("LEVEL:%d  TIME:%d  LOAD:%d\n",level,time,load);
 }
 int main()
 {
@@ -68,7 +68,7 @@ int main()
                 break;
         }
         if(print!=0)
-            out_status();
+            state();
     }
     return 0;
 }
