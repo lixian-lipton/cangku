@@ -50,7 +50,7 @@ int main() {
     sort();
     printf("TIME:0\nelevator1: LEVEL:%d LOAD:0\nelevator2: LEVEL:%d LOAD:0\n\n", level1, level2);
     time = -1;
-    while (n != 0) {                        //待考虑：如果电梯在同一层
+    while (n != 0) {
         print = 0;
         time++;
         level1 += run1;
@@ -189,7 +189,8 @@ int main() {
                     }
                 }
             }
-        } else {
+        }
+        if (run1 != 0) {
             x = 0;             //x=1时，保持现有方向；否则考虑停止或转向
             for (int i = level1 + run1; i >= 1 && i <= 10; i += run1)
                 for (int j = 1; j <= human[i][0][0]; j++) {
@@ -232,6 +233,8 @@ int main() {
                     }
                 }
             }
+        }
+        if (run2 != 0) {
             x = 0;
             for (int i = level2 + run2; i >= 1 && i <= 10; i += run2)
                 for (int j = 1; j <= human[i][0][0]; j++) {
@@ -276,7 +279,7 @@ int main() {
             }
         }
         if (print)
-            state();
+            state();/////////////////////////////
     }
     return 0;
 }
