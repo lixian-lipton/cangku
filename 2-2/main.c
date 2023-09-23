@@ -31,7 +31,7 @@ int max(int a,int b)
 }
 void state()
 {
-    printf("TIME:%d\nelevator1: LEVEL:%d LOAD:%d\nelevator2: LEVEL:%d LOAD:%d\n\n",time,level1,load1,level2,load2);
+    printf("TIME:%d\nelevator1: LEVEL:%d LOAD:%d\nelevator2: LEVEL:%d LOAD:%d\n\n", time, level1, load1, level2, load2);
 }
 int main() {
     printf("elevator\n");
@@ -104,6 +104,16 @@ int main() {
                         request[level2] = 1;
                 }
             }
+            for(int i=1;i<=10;i++){
+                for(int j=1;j<=human[i][0][0];j++){
+                    if(human[i][j][1]==level1&&human[i][j][0]==2){
+                        request[level1]=1;
+                    }
+                    if(human[i][j][1]==level2&&human[i][j][0]==2){
+                        request[level2]=1;
+                    }
+                }
+            }
         }
         if (run1 * run2 == 0) {
             if (run2 == 0 && run1 == 0) {
@@ -120,12 +130,18 @@ int main() {
                                 run1 = 1;
                                 flag[x + j * 100] = 1;
                             }
+                            if(human[x][j][0]==2&&ele[x+j*100]==1){
+                                run1=1;
+                            }
                         }
                         x = max(1, level1 - i);
                         for (int j = 1; j <= human[x][0][0]; j++) {
                             if (human[x][j][0] == 1 && flag[x + j * 100] == 0) {
                                 run1 = -1;
                                 flag[x + j * 100] = 1;
+                            }
+                            if(human[x][j][0]==2&&ele[x+j*100]==1){
+                                run1=-1;
                             }
                         }
                     }
@@ -136,12 +152,18 @@ int main() {
                                 run2 = 1;
                                 flag[x + j * 100] = 1;
                             }
+                            if(human[x][j][0]==2&&ele[x+j*100]==2){
+                                run1=1;
+                            }
                         }
                         x = max(1, level2 - i);
                         for (int j = 1; j <= human[x][0][0]; j++) {
                             if (human[x][j][0] == 1 && flag[x + j * 100] == 0) {
                                 run2 = -1;
                                 flag[x + j * 100] = 1;
+                            }
+                            if(human[x][j][0]==2&&ele[x+j*100]==2){
+                                run1=-1;
                             }
                         }
                     }
@@ -261,7 +283,7 @@ int main() {
                 run2 = 0;
                 for (int i = 1; i <= 10; i++)
                     for (int j = 1; j <= human[i][0][0]; j++) {
-                        if (ele[i + j * 100] == 1) {
+                        if (ele[i + j * 100] == 2) {
                             run2 = x * -1;
                             break;
                         }
@@ -279,7 +301,7 @@ int main() {
             }
         }
         if (print)
-            state();/////////////////////////////
+            state();
     }
     return 0;
 }
